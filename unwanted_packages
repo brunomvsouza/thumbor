@@ -5,3 +5,5 @@ cassandra
 chromium-browser
 couchdb
 elasticsearch
+firebird-dev
+firefox
