@@ -9,3 +9,5 @@ firebird-dev
 firefox
 mysql-client
 mysql-server
+postgresql
+riak
