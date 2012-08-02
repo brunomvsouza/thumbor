@@ -17,6 +17,9 @@ install:
 
     - sudo apt-get autoremove -y
 
+    #cleaning packages cache
+    - sudo apt-get clean -y
+
     - df -h
 
     # weird travis-ci python paths
