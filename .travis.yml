@@ -3,14 +3,43 @@ python:
   - "2.7"
 
 install:
-    - sudo add-apt-repository ppa:gijzelaar/cuda -y
-    - sudo add-apt-repository ppa:gijzelaar/opencv2.3 -y
+    - sudo apt-get autoremove -y
+
+    # update aptitude
     - sudo apt-get update -y
-    - sudo apt-get install libcv-dev -y
+
+    #removing unwanted packages
+    - sudo apt-get remove --purge -y $(< unwanted_packages)
+
+
+    # install aptitude packages
+    - LDFLAGS=-lm sudo aptitude install -y $(< requirements)
+
+    - sudo apt-get autoremove -y
+
+    - df -h
+
+    # weird travis-ci python paths
+    - export PYTHONPATH=$PYTHONPATH:/usr/lib/pymodules/python2.7/
+    - export PYTHONPATH=$PYTHONPATH:/usr/lib/python2.7/dist-packages
+    - export PYTHONPATH=$PYTHONPATH:/usr/lib/pyshared/python2.7/
+    - export PYTHONPATH=$PYTHONPATH:/usr/local/lib/python2.7/site-packages/
+
+    # verify both requirements were met
+    - INSTALLDIR=$(python -c "import os; import numpy; print(os.path.dirname(numpy.__file__))")
+
     # install python requirements
     - pip install -r test_requirements.txt --use-mirrors
 
 script:
+    # weird travis-ci python paths
+    - export PYTHONPATH=$PYTHONPATH:/usr/lib/pymodules/python2.7/
+    - export PYTHONPATH=$PYTHONPATH:/usr/lib/python2.7/dist-packages
+    - export PYTHONPATH=$PYTHONPATH:/usr/lib/pyshared/python2.7/
+    - export PYTHONPATH=$PYTHONPATH:/usr/local/lib/python2.7/site-packages/
+
+    # install opencv
+    - ./install-opencv.sh
 
     - df -h
 
